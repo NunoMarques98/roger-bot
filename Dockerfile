@@ -1,17 +1,16 @@
-FROM node:8
+FROM node:latest
 
 LABEL maintainer="Nuno Carriço"
 LABEL description="This example installs node"
 
-WORKDIR /usr/src/app
+WORKDIR /usr/src/bot
 
-COPY package*.json ./
+COPY package*.json settings.json ./
 
 RUN npm install
 
 COPY . .
 
-EXPOSE 80/tcp
 CMD [ "npm", "start" ]
 
 
