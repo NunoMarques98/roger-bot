@@ -5,7 +5,7 @@ LABEL description="This example installs node"
 
 WORKDIR /usr/src/bot
 
-COPY package*.json settings.json ./
+COPY package*.json ./
 
 RUN npm install
 
