@@ -4,8 +4,8 @@ const Discord = require('discord.js');
 const client = new Discord.Client();
 const download = require('download-file')
  
-client.login(process.env.BOT_TOKEN);
-//client.login(token);
+//client.login(process.env.BOT_TOKEN);
+client.login(token);
 
 client.on('message', message => {
 
