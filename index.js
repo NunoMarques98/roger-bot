@@ -1,8 +1,23 @@
-//const {token, prefix} = require("./settings.json");
+const {token, prefix, dbLink} = require("./settings.json");
 
 const Discord = require('discord.js');
 const client = new Discord.Client();
-const download = require('download-file')
+const download = require('download-file');
+const mongo = require('mongoose');
+
+mongo.connect(dbLink).catch( (err) => {
+
+    console.log(err);
+})
+
+mongo.connection.once('open', () => {
+    
+    console.log("Connection establised...");
+
+}).on('error', (err) => {
+
+    console.log(err);
+})
  
 //client.login(process.env.BOT_TOKEN);
 client.login(token);

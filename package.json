@@ -12,11 +12,14 @@
     "discord.js": "^11.3.2",
     "download-file": "^0.1.5",
     "ffmpeg-binaries": "^3.2.2-3",
+    "mongoose": "^5.1.7",
     "nodemon": "^1.17.5",
     "opusscript": "0.0.6",
     "ytdl-core": "^0.20.4"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "mocha": "^5.2.0"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/NunoMarques98/roger-bot.git"
