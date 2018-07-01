@@ -1,6 +1,9 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
+const MAX_TRACKS = 20;
+const START_TRACKS = 0;
+
 const MusicSchema = new Schema({
 
     title: String,
@@ -21,4 +24,24 @@ const PlaylistSchema = new Schema({
 
 const Playlist = mongoose.model("playlist", PlaylistSchema);
 
-module.exports = Playlist;
+module.exports = { 
+    
+    playlist: Playlist,
+
+    createPlaylist: (userID, plID, name) => {
+
+        let playlistToCreate = new Playlist({
+
+            userID: userID,
+            playlistID: plID,
+            maxTracks: MAX_TRACKS,
+            currentTracks: START_TRACKS,
+            name: name,
+            tracks: []
+
+        })
+
+        playlistToCreate.save( (err) => { if (err) throw err });
+    }
+
+};
