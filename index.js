@@ -41,13 +41,11 @@ client.on('guildMemberAdd', member => {
 })
 
 client.on('guildCreate', guild => {
+
+
+    server.joinServer(guild);
+
     
-    
-
-    server.joinServer(guild, (cb) => {
-
-
-    });
 })
 
 /*client.on('message', message => {

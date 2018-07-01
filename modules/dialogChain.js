@@ -1,11 +1,9 @@
 const Dialog = require('./dialog');
-const Discord = require('discord.js');
+module.exports = class DialogChain {
 
-class DialogChain {
+    constructor(channel, dialogs) {
 
-    constructor(channel) {
-
-        this.dialogs = [];
+        this.dialogs = dialogs;
         this.fase = 0;
         this.channel = channel;
     }
@@ -24,25 +22,38 @@ class DialogChain {
         dialogToChange.setAnswer(answer);
     }
 
-    initDialog() {
+    initDialog(owner, callback) {
 
-        let collector = this.channel.createMessageCollector(m => m !== undefined);
+        owner.createDM().then( (channel) => {
 
-        collector.on('collect', (m) => {
+            let collector = channel.createMessageCollector(m => !m.author.bot);
 
-            do {
-                
-                this.channel.send(this.dialogs[this.fase].question);
+            console.log("joined");
 
-                this.dialogs[this.fase].setAnswer(m.content);
+            channel.send("Let's setup the ship!");
 
-                this.fase++;
+            collector.on('collect', (m) => {
 
-            } while (m.content.match(/done/i) === null && this.fase < this.dialogs.length);
+                let content = m.content;
 
-            collector.stop();
+                if(content.match(/done/i) === null || this.fase >= this.dialogs.length) collector.stop();
+    
+                channel.send(this.dialogs[this.fase].question);
+
+                if(content.match(/[0-9]{18}/) !== null) {
+
+                    this.dialogs[this.fase].setAnswer(content);
+
+                    this.fase++;
+
+                } else channel.send("Answer not correctly formated!");
+
+            })
 
             this.fase = 0;
+
         })
+
+        callback("hello");
     }
 }

@@ -1,6 +1,9 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
+const DialogChain = require('../modules/dialogChain');
+const Dailog = require('../modules/dialog');
+
 const ServerSchema = new Schema({
 
     name: String,
@@ -20,25 +23,38 @@ module.exports = {
 
     server: DiscordServer,
 
-    joinServer: (guild, callback) => {
+    joinServer(guild) {
 
         let owner = guild.owner;
 
-        owner.createDM().then( (channel) => {
+        let questions = ["Bot channel ID?", "Music channel ID?", "Join/Leave Channel ID?"];
 
-            const collector = channel.createMessageCollector(m => m.content != undefined);
+        let dialogs = [];
 
-            collector.on('collect', (m) => {
+        questions.map( (question) => {
 
+            let dialog = new Dailog(question);
 
-            })
-
-            channel.delete();
-
+            dialogs.push(dialog);
         })
 
+            
+        let dialogChain = new DialogChain(null, dialogs);
+        
+        dialogChain.initDialog(owner, (cb) => {
 
-        let serverToJoin = new DiscordServer({
+            for(let i = 0; i < dialogChain.dialogs.length; i++) {
+
+                console.log(dialogChain.dialogs[i].answer);
+            }
+
+        });
+
+        //channel.delete();
+
+        
+
+        /*let serverToJoin = new DiscordServer({
 
             name: guild.name,
             id: guild.id,
@@ -51,7 +67,8 @@ module.exports = {
 
         })
 
-        serverToJoin.save( (err) => { if (err) throw err });
+        serverToJoin.save( (err) => { if (err) throw err });*/
+        
     }
 
 }
