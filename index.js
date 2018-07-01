@@ -5,6 +5,11 @@ const client = new Discord.Client();
 const download = require('download-file');
 const mongo = require('mongoose');
 
+/*mongo.connect(process.env.DB).catch( (err) => {
+
+    console.log(err);
+})*/
+
 mongo.connect(dbLink).catch( (err) => {
 
     console.log(err);
