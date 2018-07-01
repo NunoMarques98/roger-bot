@@ -1,11 +1,13 @@
 const Dialog = require('./dialog');
+const Discord = require('discord.js');
 
 class DialogChain {
 
-    constructor() {
+    constructor(channel) {
 
         this.dialogs = [];
         this.fase = 0;
+        this.channel = channel;
     }
 
     addDialog(dialog) {
@@ -19,4 +21,6 @@ class DialogChain {
 
         dialogToChange.setAnswer(answer);
     }
+
+    
 }
