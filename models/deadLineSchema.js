@@ -13,4 +13,22 @@ const DeadLineSchema = new Schema({
 
 const DeadLine = mongoose.model("deadline", DeadLineSchema);
 
-module.exports = DeadLine;
+module.exports = {
+    
+    deadline: DeadLine,
+
+    createDeadLine: (initDate, finishDate, id, name, fileFormat) => {
+
+        let deadLineToCreate = new DeadLine({
+
+            initDate: initDate,
+            finishDate: finishDate,
+            createdByID: id,
+            name: name,
+            fileFormat: fileFormat
+
+        });
+
+        deadLineToCreate.save( (err) => { if (err) throw err });
+    }
+};
