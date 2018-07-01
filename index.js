@@ -4,7 +4,9 @@ const Discord = require('discord.js');
 const client = new Discord.Client();
 const download = require('download-file');
 const mongo = require('mongoose');
+
 const user = require('./models/user');
+const server = require('./models/server');
 
 /*mongo.connect(process.env.DB).catch( (err) => {
 
@@ -30,14 +32,26 @@ client.login(token);
 
 client.on('guildMemberAdd', member => {
 
-    user.createUser(member.nickname, member.id, (cb) => {
+    user.createUser(member.displayName, member.id, (cb) => {
 
-        
+        let channel = client.channels.get("460934242713600013");
+
+        channel.send(cb).then( console.log(cb) ).catch( console.error );
     })
+})
 
+client.on('guildCreate', guild => {
+    
+    
+
+    server.joinServer(guild, (cb) => {
+
+
+    });
 })
 
 /*client.on('message', message => {
+
 
     if(!message.author.bot)
         message.reply("hello");

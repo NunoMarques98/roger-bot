@@ -6,7 +6,7 @@ const START_PLAYLIST = 0;
 const MAX_PLAYLIST = 5;
 const START_LEVEL = 1;
 const START_EXP = 0;
-const START_RANK = "";
+const START_RANK = "Powder Monkey";
 
 const FACTOR = 5;
 
@@ -49,7 +49,7 @@ module.exports = {
 
         checkExistance(id, (cb) => {
 
-            if(cb) callback("User already exists");
+            if(cb) callback(":bomb: Welcome back lad. We are short on people to feed the Kraken! :octopus:");
 
             else {
 
@@ -69,7 +69,7 @@ module.exports = {
     
                 userToCreate.save( (err) => { if(err) throw err });
     
-                callback("User created with success");
+                callback(":sailboat: Welcome aboard sailor! Settle in with the crew and have some rum lad! :champagne:");
             }
         })
     },
