@@ -4,6 +4,7 @@ const Discord = require('discord.js');
 const client = new Discord.Client();
 const download = require('download-file');
 const mongo = require('mongoose');
+const user = require('./models/user');
 
 /*mongo.connect(process.env.DB).catch( (err) => {
 
@@ -27,7 +28,16 @@ mongo.connection.once('open', () => {
 //client.login(process.env.BOT_TOKEN);
 client.login(token);
 
-client.on('message', message => {
+client.on('guildMemberAdd', member => {
+
+    user.createUser(member.nickname, member.id, (cb) => {
+
+        
+    })
+
+})
+
+/*client.on('message', message => {
 
     if(!message.author.bot)
         message.reply("hello");
@@ -51,5 +61,5 @@ client.on('message', message => {
         })
     }
      
-});
+});*/
 

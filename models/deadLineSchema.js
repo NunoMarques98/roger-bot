@@ -5,7 +5,7 @@ const DeadLineSchema = new Schema({
 
     initDate: Date,
     finishDate: Date,
-    createdByID: Number,
+    createdByID: String,
     name: String,
     fileFormat: String
 

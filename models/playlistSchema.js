@@ -13,7 +13,7 @@ const MusicSchema = new Schema({
 
 const PlaylistSchema = new Schema({
 
-    userID: Number,
+    userID: String,
     playlistID: Number,
     maxTracks: Number,
     currentTracks: Number,
