@@ -42,10 +42,7 @@ client.on('guildMemberAdd', member => {
 
 client.on('guildCreate', guild => {
 
-
     server.joinServer(guild);
-
-    
 })
 
 /*client.on('message', message => {

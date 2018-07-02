@@ -1,11 +1,13 @@
 const Dialog = require('./dialog');
 module.exports = class DialogChain {
 
-    constructor(channel, dialogs) {
+    constructor(channel, dialogs, beginMessage, endMessage) {
 
         this.dialogs = dialogs;
         this.fase = 0;
         this.channel = channel;
+        this.beginMessage = beginMessage;
+        this.endMessage = endMessage;
     }
 
     addDialog(dialog) {
@@ -28,32 +30,38 @@ module.exports = class DialogChain {
 
             let collector = channel.createMessageCollector(m => !m.author.bot);
 
-            console.log("joined");
+            channel.send(this.beginMessage);
 
-            channel.send("Let's setup the ship!");
+            channel.send(this.dialogs[0].question);
 
             collector.on('collect', (m) => {
 
                 let content = m.content;
 
-                if(content.match(/done/i) === null || this.fase >= this.dialogs.length) collector.stop();
+                if(content.match(/done/i) !== null) collector.stop();
     
-                channel.send(this.dialogs[this.fase].question);
-
-                if(content.match(/[0-9]{18}/) !== null) {
+                if(content.match(/^[0-9]{18}$/) !== null) {
 
                     this.dialogs[this.fase].setAnswer(content);
 
                     this.fase++;
 
+                    if(this.fase >= this.dialogs.length) collector.stop();
+
+                    else channel.send(this.dialogs[this.fase].question);
+
                 } else channel.send("Answer not correctly formated!");
 
             })
 
+            collector.on('end', (collected) => {
+
+                channel.send(this.endMessage)
+
+                callback(this.dialogs);
+            })
+
             this.fase = 0;
-
         })
-
-        callback("hello");
     }
 }

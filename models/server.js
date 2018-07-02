@@ -25,8 +25,6 @@ module.exports = {
 
     joinServer(guild) {
 
-        let owner = guild.owner;
-
         let questions = ["Bot channel ID?", "Music channel ID?", "Join/Leave Channel ID?"];
 
         let dialogs = [];
@@ -38,37 +36,29 @@ module.exports = {
             dialogs.push(dialog);
         })
 
-            
-        let dialogChain = new DialogChain(null, dialogs);
+        let dialogChain = new DialogChain(null, dialogs, "Let's setup the ship!", "That's all Cap'n. You can always change me channels later!");
+
+        let channels = guild.channels.filter(channel => channel.type === 'text');
         
-        dialogChain.initDialog(owner, (cb) => {
+        dialogChain.initDialog(guild.owner, (cb) => {
 
-            for(let i = 0; i < dialogChain.dialogs.length; i++) {
+            let guildDefaultChannelID = channels.array()[0].id;
 
-                console.log(dialogChain.dialogs[i].answer);
-            }
+            let serverToJoin = new DiscordServer({
 
+                name: guild.name,
+                id: guild.id,
+                ownerID: guild.ownerID,
+                region: guild.region,
+                defaultChannelID: guildDefaultChannelID,
+                botChannelID: cb[0].answer || guildDefaultChannelID,
+                musicChannelID: cb[1].answer || guildDefaultChannelID,
+                joinLeaveChannelID: cb[2].answer || guildDefaultChannelID
+    
+            })
+
+            serverToJoin.save( (err) => { if (err) throw err });
         });
-
-        //channel.delete();
-
-        
-
-        /*let serverToJoin = new DiscordServer({
-
-            name: guild.name,
-            id: guild.id,
-            ownerID: guild.ownerID,
-            region: guild.region,
-            defaultChannelID: guild.defaultChannel.id,
-            botChannelID: guild.defaultChannel.id,
-            musicChannelID: guild.defaultChannel.id,
-            joinLeaveChannelID: guild.defaultChannel.id
-
-        })
-
-        serverToJoin.save( (err) => { if (err) throw err });*/
-        
     }
 
 }
