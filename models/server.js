@@ -27,16 +27,14 @@ module.exports = {
 
         let questions = ["Bot channel ID?", "Music channel ID?", "Join/Leave Channel ID?"];
 
-        let dialogs = [];
+        let dialogChain = new DialogChain(null, [], "Let's setup the ship!", "That's all Cap'n. You can always change me channels later!");
 
         questions.map( (question) => {
 
             let dialog = new Dailog(question);
 
-            dialogs.push(dialog);
+            dialogChain.addDialog(dialog);
         })
-
-        let dialogChain = new DialogChain(null, dialogs, "Let's setup the ship!", "That's all Cap'n. You can always change me channels later!");
 
         let channels = guild.channels.filter(channel => channel.type === 'text');
         
@@ -59,6 +57,14 @@ module.exports = {
 
             serverToJoin.save( (err) => { if (err) throw err });
         });
+    },
+
+    changeChannelID(query, channelIDUpdate) {
+
+        DiscordServer.findOneAndUpdate(query, { $set: channelIDUpdate}, (err) => {
+
+            if (err) throw err;
+        })
     }
 
 }

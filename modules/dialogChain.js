@@ -3,7 +3,7 @@ module.exports = class DialogChain {
 
     constructor(channel, dialogs, beginMessage, endMessage) {
 
-        this.dialogs = dialogs;
+        this.dialogs = dialogs || [];
         this.fase = 0;
         this.channel = channel;
         this.beginMessage = beginMessage;
