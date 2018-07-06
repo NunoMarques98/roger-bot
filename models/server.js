@@ -4,6 +4,8 @@ const Schema = mongoose.Schema;
 const DialogChain = require('../modules/dialogChain');
 const Dailog = require('../modules/dialog');
 
+const flagTable = require('../settings.json').flagTable;
+
 const ServerSchema = new Schema({
 
     name: String,
@@ -59,9 +61,32 @@ module.exports = {
         });
     },
 
+    routeServerCommands(flags, values, serverID) {
+
+        let match = flags.match(/^-(b|jl|m|d)$/);
+
+        if(match != null) {
+
+            let matchedFlag = match[0];
+            
+            let query = {id: serverID};
+            let update = flagTable[matchedFlag];
+            let key = Object.keys(update)[0];
+
+            update[key] = values;
+
+            this.changeChannelID(query, update);
+
+            return true;
+        }
+
+        else return false;
+    
+    },
+
     changeChannelID(query, channelIDUpdate) {
 
-        DiscordServer.findOneAndUpdate(query, { $set: channelIDUpdate}, (err) => {
+        DiscordServer.findOneAndUpdate(query, channelIDUpdate, (err) => {
 
             if (err) throw err;
         })

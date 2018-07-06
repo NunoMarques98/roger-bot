@@ -7,7 +7,7 @@ const mongo = require('mongoose');
 
 const user = require('./models/user');
 const server = require('./models/server');
-
+const Message = require('./modules/message');
 /*mongo.connect(process.env.DB).catch( (err) => {
 
     console.log(err);
@@ -45,30 +45,12 @@ client.on('guildCreate', guild => {
     server.joinServer(guild);
 })
 
-/*client.on('message', message => {
+client.on('message', message => {
 
+    if(message.content.startsWith(prefix)) {
 
-    if(!message.author.bot)
-        message.reply("hello");
+        let messageReceived = new Message(message.guild.id, message.member.id, message.channel, message.content);
 
-    if(message.attachments.size != 0)
-    {
-        let messageAttachment = message.attachments.array()[0];
-
-        let url = messageAttachment.url;
-        
-        let options = {
-
-            directory: "C:/Users/nuno1/Desktop",
-            filename: messageAttachment.filename
-
-        }
-        
-        download(url, options, (err) => {
-
-            if (err) throw err
-        })
+        Message.routeMessage(messageReceived);
     }
-     
-});*/
-
+})
