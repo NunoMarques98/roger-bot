@@ -40,7 +40,7 @@ module.exports = class DialogChain {
 
                 if(content.match(/done/i) !== null) collector.stop();
     
-                if(content.match(/^[0-9]{18}$/) !== null) {
+                if(content.match(/^([0-9]{18}|\w{1,20})$/g) !== null) {
 
                     this.dialogs[this.fase].setAnswer(content);
 

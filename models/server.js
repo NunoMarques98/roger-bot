@@ -16,9 +16,9 @@ const ServerSchema = new Schema({
     botChannelID: String,
     musicChannelID: String,
     joinLeaveChannelID: String,
-    musicRoleID: String,
-    botRoleID: String,
-    configRoleID: String
+    musicRoleName: String,
+    botRoleName: String,
+    configRoleName: String
 
 });
 
@@ -30,7 +30,7 @@ module.exports = {
 
     joinServer(guild) {
 
-        let questions = ["Bot channel ID?", "Music channel ID?", "Join/Leave Channel ID?", "Role ID for music interactions?", "Role ID for util functions?", "Role ID for advanced configs?"];
+        let questions = ["Bot channel ID?", "Music channel ID?", "Join/Leave Channel ID?", "Role name for music interactions?", "Role name for util functions?", "Role name for advanced configs?"];
 
         let dialogChain = new DialogChain(null, [], "Let's setup the ship!", "That's all Cap'n. You can always change me channels later!");
 
@@ -57,9 +57,9 @@ module.exports = {
                 botChannelID: cb[0].answer || guildDefaultChannelID,
                 musicChannelID: cb[1].answer || guildDefaultChannelID,
                 joinLeaveChannelID: cb[2].answer || guildDefaultChannelID,
-                musicRoleID: cb[3].answer,
-                botRoleID: cb[4].answer,
-                configRoleID: cb[5].answer
+                musicRoleName: cb[3].answer,
+                botRoleName: cb[4].answer,
+                configRoleName: cb[5].answer
     
             })
 
