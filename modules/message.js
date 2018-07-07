@@ -21,14 +21,14 @@ class Message {
 
             switch (command) {
 
-                case "$updateChannelID":
+                case "$updateID":
 
                     let flag = commandParts[1];
                     let value = commandParts[2];
 
                     let result = Server.routeServerCommands(flag, value, message.guildID);
 
-                    if(result) message.channel.send("ID updated!");
+                    if (result) message.channel.send("ID updated!");
 
                     else message.channel.send("Invalid flag!");
 

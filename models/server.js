@@ -15,7 +15,10 @@ const ServerSchema = new Schema({
     defaultChannelID: String,
     botChannelID: String,
     musicChannelID: String,
-    joinLeaveChannelID: String
+    joinLeaveChannelID: String,
+    musicRoleID: String,
+    botRoleID: String,
+    configRoleID: String
 
 });
 
@@ -27,7 +30,7 @@ module.exports = {
 
     joinServer(guild) {
 
-        let questions = ["Bot channel ID?", "Music channel ID?", "Join/Leave Channel ID?"];
+        let questions = ["Bot channel ID?", "Music channel ID?", "Join/Leave Channel ID?", "Role ID for music interactions?", "Role ID for util functions?", "Role ID for advanced configs?"];
 
         let dialogChain = new DialogChain(null, [], "Let's setup the ship!", "That's all Cap'n. You can always change me channels later!");
 
@@ -53,7 +56,10 @@ module.exports = {
                 defaultChannelID: guildDefaultChannelID,
                 botChannelID: cb[0].answer || guildDefaultChannelID,
                 musicChannelID: cb[1].answer || guildDefaultChannelID,
-                joinLeaveChannelID: cb[2].answer || guildDefaultChannelID
+                joinLeaveChannelID: cb[2].answer || guildDefaultChannelID,
+                musicRoleID: cb[3].answer,
+                botRoleID: cb[4].answer,
+                configRoleID: cb[5].answer
     
             })
 
@@ -63,7 +69,7 @@ module.exports = {
 
     routeServerCommands(flags, values, serverID) {
 
-        let match = flags.match(/^-(b|jl|m|d)$/);
+        let match = flags.match(/^-(br?|jl|mr?|d|cr)$/);
 
         if(match != null) {
 
@@ -81,7 +87,6 @@ module.exports = {
         }
 
         else return false;
-    
     },
 
     changeChannelID(query, channelIDUpdate) {
