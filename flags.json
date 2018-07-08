@@ -1,0 +1,19 @@
+{   
+    "serverFlagTable": {
+
+        "-b": {"botChannelID": null},
+        "-jl": {"joinLeaveChannelID": null},
+        "-m": {"musicChannelID": null},
+        "-d": {"defaultChannelID": null},
+        "-mr": {"musicRoleName": null},
+        "-br": {"botRoleName": null},
+        "-cr": {"configRoleName": null}
+    },
+
+    "deadlineFlagTable": {
+
+        "-ui": {"initDate": null},
+        "-uf": {"finishDate": null},
+        "-un": {"name": null}
+    }
+}

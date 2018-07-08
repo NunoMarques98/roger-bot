@@ -33,6 +33,12 @@ class Message {
                     else message.channel.send("Invalid flag!");
 
                     break;
+
+                case "$deadline":
+
+                    
+
+                    break;
             
                 default:
 

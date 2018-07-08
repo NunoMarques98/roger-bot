@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 const DialogChain = require('../modules/dialogChain');
 const Dailog = require('../modules/dialog');
 
-const flagTable = require('../settings.json').flagTable;
+const flagTable = require('../flag.json').serverFlagTable;
 
 const ServerSchema = new Schema({
 
@@ -81,7 +81,7 @@ module.exports = {
 
             update[key] = values;
 
-            this.changeChannelID(query, update);
+            this.changeID(query, update);
 
             return true;
         }
@@ -89,7 +89,7 @@ module.exports = {
         else return false;
     },
 
-    changeChannelID(query, channelIDUpdate) {
+    changeID(query, channelIDUpdate) {
 
         DiscordServer.findOneAndUpdate(query, channelIDUpdate, (err) => {
 
