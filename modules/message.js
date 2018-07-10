@@ -1,14 +1,16 @@
 const prefix = require('../settings.json').prefix;
 const Server = require('../models/server');
+const DeadLine = require('../models/deadLineSchema');
 
 class Message {
 
-    constructor(guildID, memberID, channel, content) {
+    constructor(guildID, memberID, channel, content, alias) {
 
         this.guildID = guildID;
         this.memberID = memberID;
         this.channel = channel;
         this.content = content;
+        this.alias = alias;
     }
 
     static routeMessage(message) {
@@ -18,15 +20,16 @@ class Message {
             let commandParts = message.content.split(" ");
 
             let command = commandParts[0];
+            let flag = commandParts[1];
+            let result;
 
             switch (command) {
 
                 case "$updateID":
 
-                    let flag = commandParts[1];
                     let value = commandParts[2];
 
-                    let result = Server.routeServerCommands(flag, value, message.guildID);
+                    result = Server.routeServerCommands(flag, value, message.guildID);
 
                     if (result) message.channel.send("ID updated!");
 
@@ -36,7 +39,9 @@ class Message {
 
                 case "$deadline":
 
-                    
+                    result = DeadLine.routeDeadLineCommands(flag, message);
+
+                    if(result.msg) message.channel.send(result.msg);
 
                     break;
             

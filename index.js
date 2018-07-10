@@ -49,7 +49,7 @@ client.on('message', message => {
 
     if(message.content.startsWith(prefix)) {
 
-        let messageReceived = new Message(message.guild.id, message.member.id, message.channel, message.content);
+        let messageReceived = new Message(message.guild.id, message.member.id, message.channel, message.content, message.author.username);
 
         Message.routeMessage(messageReceived);
     }

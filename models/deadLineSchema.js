@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const flagTable = require('../flag.json').deadlineFlagTable;
+const flagTable = require('../flags.json').deadlineFlagTable;
 const dateRegex = /^[0-9]{4}\/[0-9]{2}\/[0-9]{2}$/;
 
 const DeadLineSchema = new Schema({
@@ -22,7 +22,7 @@ module.exports = {
     
     deadline: DeadLine,
 
-    createDeadLine: (initDate, finishDate, id, alias, name, fileFormat, serverID) => {
+    createDeadLine(initDate, finishDate, id, alias, name, fileFormat, serverID)  {
 
         let deadLineToCreate = new DeadLine({
 
@@ -39,14 +39,13 @@ module.exports = {
         deadLineToCreate.save( (err) => { if (err) throw err });
     },
 
-    routeDeadLineCommands: (flag, message) => {
+    routeDeadLineCommands(flag, message)  {
 
-        let match = flag.match(/^-(u[idfn]|o|tl)$/);
+        let match = flag.match(/^-(u[idfn]|o|tl|c)$/);
 
         if(match != null) {
 
             let matchedCommand = match[0];
-
 
             if(matchedCommand === '-o') {
 
@@ -56,19 +55,21 @@ module.exports = {
 
                     console.log(docs);
                 });
+
+                return {success: true, msg: null}
             }
 
             else if(matchedCommand === '-c') {
 
                 let values = message.content.split(" ");
               
-                let initLine = values[0];
-                let finisLine = values[1];
-                let name = values[2];
-                let fileFormat = values[3];
+                let initLine = values[2];
+                let finishLine = values[3];
+                let name = values[4];
+                let fileFormat = values[5];
 
                 let matchInitDate = initLine.match(dateRegex);
-                let matchFinishDate = finishLine.match(dataRegex);
+                let matchFinishDate = finishLine.match(dateRegex);
 
                 if(matchInitDate === null) 
 
@@ -79,18 +80,18 @@ module.exports = {
                     return {success: false, msg: "End date not corretly formated. Expression must be similar to yyyy/mm/dd.\n y, m, d are digits from 0 to 9!"};
 
                 let initDateComponents = initLine.split("/");
-                let finishDateComponents = finisLine.split("/");
+                let finishDateComponents = finishLine.split("/");
 
                 let initDate = new Date(parseInt(initDateComponents[0]), parseInt(initDateComponents[1]), parseInt(initDateComponents[2]));
                 let finishDate = new Date(parseInt(finishDateComponents[0]), parseInt(finishDateComponents[1]), parseInt(finishDateComponents[2]));
 
-                this.createDeadLine(initDate, finishDate, name, fileFormat);
-            }
+                this.createDeadLine(initDate, finishDate, message.memberID, message.alias, name, fileFormat, message.guildID);
 
-            return true;
+                return {success: true, msg: "Created deadline!"}
+            }
         }
 
-        else return false;
+        else return {success :false, msg: "Invalid command"};
 
     },
 

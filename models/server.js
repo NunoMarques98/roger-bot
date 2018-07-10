@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 const DialogChain = require('../modules/dialogChain');
 const Dailog = require('../modules/dialog');
 
-const flagTable = require('../flag.json').serverFlagTable;
+const flagTable = require('../flags.json').serverFlagTable;
 
 const ServerSchema = new Schema({
 
