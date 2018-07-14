@@ -46,6 +46,7 @@ module.exports = {
         if(match != null) {
 
             let matchedCommand = match[0];
+            let values = message.content.split(" ");
 
             if(matchedCommand === '-o') {
 
@@ -60,13 +61,15 @@ module.exports = {
             }
 
             else if(matchedCommand === '-c') {
-
-                let values = message.content.split(" ");
               
                 let initLine = values[2];
                 let finishLine = values[3];
                 let name = values[4];
                 let fileFormat = values[5];
+
+                if(initLine === undefined || finishLine === undefined || name === undefined || fileFormat === undefined)
+
+                    return {success: false, msg: "One of the parameters needed is missing. Please check if your command is similar to the following template\n $deadline -c yyyy/mm/dd yyyy/mm/dd deadlineName fileFormat"};
 
                 let matchInitDate = initLine.match(dateRegex);
                 let matchFinishDate = finishLine.match(dateRegex);
@@ -89,6 +92,37 @@ module.exports = {
 
                 return {success: true, msg: "Created deadline!"}
             }
+
+            else {
+
+                let query = {serverID: message.guildID, name: values[3]};
+                let update = flagTable[matchedCommand];
+
+                let updateValue = values[2];
+
+                let key = Object.keys(update)[0];
+
+                if(matchedCommand === '-ui' || matchedCommand === '-ud') {
+
+                    let matchDate = updateValue.match(dateRegex);
+
+                    if(matchDate === null)
+
+                        return {success: false, msg: "Start date not corretly formated. Expression must be similar to yyyy/mm/dd.\n y, m, d are digits from 0 to 9!"};
+
+                    let dateComponents = updateValue.split("/");
+
+                    updateValue = new Date(parseInt(dateComponents[0]), parseInt(dateComponents[1]), parseInt(dateComponents[2]));
+                }
+
+                update[key] = updateValue;
+
+                console.log(update);
+
+                this.updateFields(query, update);
+
+                return {success: true, msg: "Field updated!"}
+            }
         }
 
         else return {success :false, msg: "Invalid command"};
@@ -97,9 +131,11 @@ module.exports = {
 
     updateFields(query, update) {
 
-        DeadLine.findOneAndUpdate(query, update, (err) => {
+        DeadLine.findOneAndUpdate(query, update, (err, data) => {
 
             if (err) throw err;
+
+            console.log(data);
         })
     },
 

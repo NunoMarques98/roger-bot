@@ -13,7 +13,8 @@
     "deadlineFlagTable": {
 
         "-ui": {"initDate": null},
-        "-uf": {"finishDate": null},
-        "-un": {"name": null}
+        "-uf": {"fileFormat": null},
+        "-un": {"name": null},
+        "-ud": {"finishDate": null}
     }
 }
