@@ -123,6 +123,49 @@ module.exports = {
                 return {success: true, msg: "Created deadline!"}
             }
 
+            else if(matchedCommand === '-tl') {
+
+                let name = values[2];
+                let date = new Date();
+
+                let query = {serverID: message.guildID, name: name};
+
+                this.getDeadLine(query, (res) => {
+
+                    let initDate = res.initDate;
+                    let finishDate = res.finishDate;
+
+                    if(initDate > date) message.channel.send("Submission has not started yet!");
+
+                    else if(finishDate < date) message.channel.send("Submission has ended!");
+
+                    else {
+
+                        let diff = finishDate - date;
+                        let seconds = diff / 1000;
+
+                        let days = Math.floor(seconds / 86400);
+
+                        seconds %= (24 * 3600);
+
+                        let hours = Math.floor(seconds / 3600);
+
+                        seconds %= 3600;
+
+                        let minutes = Math.floor(seconds / 60 );
+
+                        seconds %= 60;
+
+                        let secondsLeft = Math.floor(seconds  / 60);
+
+                        message.channel.send(`Ends in: ${days}d:${hours}h:${minutes}m:${secondsLeft}s`);
+                    }
+                })
+
+                return {success: true, msg: null};
+
+            }
+
             else {
 
                 let query = {serverID: message.guildID, name: values[3]};
@@ -163,6 +206,16 @@ module.exports = {
         let result = DeadLine.find(query).where('initDate').lte(date).where('finishDate').gte(date);
 
         result.exec( (err, res) => {
+
+            if (err) throw err;
+
+            callback(res);
+        })
+    },
+
+    getDeadLine(query, callback) {
+
+        DeadLine.findOne(query, (err, res) => {
 
             if (err) throw err;
 
