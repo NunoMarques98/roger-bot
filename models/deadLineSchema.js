@@ -3,6 +3,7 @@ const Schema = mongoose.Schema;
 
 const flagTable = require('../flags.json').deadlineFlagTable;
 const dateRegex = /^[0-9]{4}\/[0-9]{2}\/[0-9]{2}$/;
+const nameStart = 13;
 
 const DeadLineSchema = new Schema({
 
@@ -17,6 +18,22 @@ const DeadLineSchema = new Schema({
 });
 
 const DeadLine = mongoose.model("deadline", DeadLineSchema);
+
+function formatDate(updateValue) {
+    
+    let matchDate = updateValue.match(dateRegex);
+
+    if(matchDate === null)
+
+        return {success: false, msg: "Start date not corretly formated. Expression must be similar to yyyy/mm/dd.\n y, m, d are digits from 0 to 9!"};
+
+    let dateComponents = updateValue.split("/");
+
+    updateValue = new Date(parseInt(dateComponents[0]), parseInt(dateComponents[1]) - 1, parseInt(dateComponents[2]));
+
+    return updateValue;
+
+}
 
 module.exports = {
     
@@ -50,14 +67,27 @@ module.exports = {
 
             if(matchedCommand === '-o') {
 
-                let query = {serverID: message.guildID};
+                let name = message.content.substring(nameStart);
+                let query = {serverID: message.guildID, createdByAlias: name};
 
                 this.getOpenDeadLines(query, (docs) => {
 
-                    console.log(docs);
+                    let deadLinesTable = "```\n | Name | Creator | Init Date | Finish Date | File Format |\n |------|---------|-----------|-------------|-------------|\n";
+
+                    docs.forEach( (doc) => {
+
+                        let initDate = doc.initDate.getFullYear() + '/' + (doc.initDate.getMonth() + 1) + '/' + doc.initDate.getDate(); 
+                        let finishDate = doc.finishDate.getFullYear() + '/' + (doc.finishDate.getMonth() + 1) + '/' + doc.finishDate.getDate(); 
+
+                        deadLinesTable += ` | ${doc.name.substring(0, 4)} | ${doc.createdByAlias.substring(0, 7)} | ${initDate} |  ${finishDate}  |     ${doc.fileFormat}     |\n`;
+
+                    })
+
+                    deadLinesTable += "```";
+                    message.channel.send(deadLinesTable);
                 });
 
-                return {success: true, msg: null}
+                return {success: true, msg: null};
             }
 
             else if(matchedCommand === '-c') {
@@ -85,8 +115,8 @@ module.exports = {
                 let initDateComponents = initLine.split("/");
                 let finishDateComponents = finishLine.split("/");
 
-                let initDate = new Date(parseInt(initDateComponents[0]), parseInt(initDateComponents[1]), parseInt(initDateComponents[2]));
-                let finishDate = new Date(parseInt(finishDateComponents[0]), parseInt(finishDateComponents[1]), parseInt(finishDateComponents[2]));
+                let initDate = new Date(parseInt(initDateComponents[0]), parseInt(initDateComponents[1]) - 1, parseInt(initDateComponents[2]));
+                let finishDate = new Date(parseInt(finishDateComponents[0]), parseInt(finishDateComponents[1]) - 1, parseInt(finishDateComponents[2]));
 
                 this.createDeadLine(initDate, finishDate, message.memberID, message.alias, name, fileFormat, message.guildID);
 
@@ -102,22 +132,9 @@ module.exports = {
 
                 let key = Object.keys(update)[0];
 
-                if(matchedCommand === '-ui' || matchedCommand === '-ud') {
-
-                    let matchDate = updateValue.match(dateRegex);
-
-                    if(matchDate === null)
-
-                        return {success: false, msg: "Start date not corretly formated. Expression must be similar to yyyy/mm/dd.\n y, m, d are digits from 0 to 9!"};
-
-                    let dateComponents = updateValue.split("/");
-
-                    updateValue = new Date(parseInt(dateComponents[0]), parseInt(dateComponents[1]), parseInt(dateComponents[2]));
-                }
-
+                if(matchedCommand === '-ui' || matchedCommand === '-ud') updateValue = formatDate(updateValue);
+        
                 update[key] = updateValue;
-
-                console.log(update);
 
                 this.updateFields(query, update);
 
@@ -141,11 +158,15 @@ module.exports = {
 
     getOpenDeadLines(query, callback) {
 
-        DeadLine.find(query, (docs) => {
+        let date = new Date();
 
-            if(err) throw err;
+        let result = DeadLine.find(query).where('initDate').lte(date).where('finishDate').gte(date);
 
-            callback(docs);
+        result.exec( (err, res) => {
+
+            if (err) throw err;
+
+            callback(res);
         })
     }
 };
