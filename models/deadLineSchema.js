@@ -35,6 +35,26 @@ function formatDate(updateValue) {
 
 }
 
+function getDate(seconds) {
+
+    let days = Math.floor(seconds / 86400);
+
+    seconds %= (24 * 3600);
+
+    let hours = Math.floor(seconds / 3600);
+
+    seconds %= 3600;
+
+    let minutes = Math.floor(seconds / 60 );
+
+    seconds %= 60;
+
+    let secondsLeft = Math.floor(seconds  / 60);
+
+    return `Ends in: ${days}d:${hours}h:${minutes}m:${secondsLeft}s`;
+    
+}
+
 module.exports = {
     
     deadline: DeadLine,
@@ -141,24 +161,9 @@ module.exports = {
 
                     else {
 
-                        let diff = finishDate - date;
-                        let seconds = diff / 1000;
+                        let seconds = (finishDate - date) / 1000;
 
-                        let days = Math.floor(seconds / 86400);
-
-                        seconds %= (24 * 3600);
-
-                        let hours = Math.floor(seconds / 3600);
-
-                        seconds %= 3600;
-
-                        let minutes = Math.floor(seconds / 60 );
-
-                        seconds %= 60;
-
-                        let secondsLeft = Math.floor(seconds  / 60);
-
-                        message.channel.send(`Ends in: ${days}d:${hours}h:${minutes}m:${secondsLeft}s`);
+                        message.channel.send(getDate(seconds));
                     }
                 })
 
@@ -195,7 +200,6 @@ module.exports = {
 
             if (err) throw err;
 
-            console.log(data);
         })
     },
 
