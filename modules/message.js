@@ -1,16 +1,18 @@
 const prefix = require('../settings.json').prefix;
 const Server = require('../models/server');
 const DeadLine = require('../models/deadLineSchema');
-
+const Submission = require('./submissions');
 class Message {
 
-    constructor(guildID, memberID, channel, content, alias) {
+    constructor(guildID, memberID, channel, content, alias, attachment, guild) {
 
         this.guildID = guildID;
+        this.guild = guild
         this.memberID = memberID;
         this.channel = channel;
         this.content = content;
         this.alias = alias;
+        this.attachment = attachment;
     }
 
     static routeMessage(message) {
@@ -42,6 +44,12 @@ class Message {
                     result = DeadLine.routeDeadLineCommands(flag, message);
 
                     if(result.msg) message.channel.send(result.msg);
+
+                    break;
+
+                case "$submit":
+
+                    result = Submission.routeSubmission(message);
 
                     break;
             

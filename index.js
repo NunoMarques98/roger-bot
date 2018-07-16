@@ -49,7 +49,11 @@ client.on('message', message => {
 
     if(message.content.startsWith(prefix)) {
 
-        let messageReceived = new Message(message.guild.id, message.member.id, message.channel, message.content, message.author.username);
+        let attachment = null;
+
+        if(message.attachments) attachment = message.attachments.first();
+
+        let messageReceived = new Message(message.guild.id, message.member.id, message.channel, message.content, message.author.username, attachment, message.guild);
 
         Message.routeMessage(messageReceived);
     }

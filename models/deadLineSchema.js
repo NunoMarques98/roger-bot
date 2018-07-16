@@ -217,13 +217,24 @@ module.exports = {
         })
     },
 
-    getDeadLine(query, callback) {
+    getDeadLine(query) {
 
-        DeadLine.findOne(query, (err, res) => {
+        return new Promise( (resolve, reject) => {
 
-            if (err) throw err;
+            DeadLine.findOne(query, (err, res) => {
 
-            callback(res);
+                if (err) reject(err);
+    
+                resolve(res);
+            })
         })
+    },
+
+    verifyOnSchedule(deadline, date) {
+
+        let initDate = deadline.initDate;
+        let finishDate = deadline.finishDate;
+
+        return ((initDate <= date) && (date <= finishDate));
     }
 };
