@@ -1,5 +1,4 @@
 const DeadLine = require('../models/deadLineSchema');
-const Discord = require('discord.js');
 
 class Subimission {
 
