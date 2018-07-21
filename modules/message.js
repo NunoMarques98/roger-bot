@@ -1,7 +1,8 @@
 const prefix = require('../settings.json').prefix;
 const Server = require('../models/server');
-const DeadLine = require('../models/deadLineSchema');
 const Submission = require('./submissions');
+const DeadLine = require('./deadLine');
+
 class Message {
 
     constructor(guildID, memberID, channel, content, alias, attachment, guild) {
