@@ -44,13 +44,13 @@ class DeadLine {
 
                 case "-tl":
 
-                    this.timeLeft(values);
+                    this.timeLeft(message, values);
 
                     return {success: true, msg: null};
 
                 default:
 
-                    this.updateDeadLineField(message, values);
+                    this.updateDeadLineField(message, values, matchedCommand);
 
                     return {success: true, msg: "Field updated!"}
             }
@@ -82,7 +82,7 @@ class DeadLine {
         message.channel.send(deadLinesTable);
     }
 
-    static async timeLeft(values) {
+    static async timeLeft(message, values) {
 
         let name = values[2];
         let date = new Date();
@@ -142,7 +142,7 @@ class DeadLine {
 
     }
 
-    static updateDeadLineField(message, values) {
+    static updateDeadLineField(message, values, matchedCommand) {
 
         let query = {serverID: message.guildID, name: values[3]};
         let update = flagTable[matchedCommand];
@@ -186,7 +186,7 @@ class DeadLine {
         let initDate = new Date(parseInt(initDateComponents[0]), parseInt(initDateComponents[1]) - 1, parseInt(initDateComponents[2]));
         let finishDate = new Date(parseInt(finishDateComponents[0]), parseInt(finishDateComponents[1]) - 1, parseInt(finishDateComponents[2]));
 
-        DeadLineModel.createDeadLine(initDate, finishDate, this.id, this.alias, name, fileFormat, this.guildID);
+        DeadLineModel.createDeadLine(initDate, finishDate, this.id, this.alias, name, fileFormat, this.serverID);
     }
     
 }

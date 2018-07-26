@@ -43,7 +43,6 @@ module.exports = {
         DeadLine.findOneAndUpdate(query, update, (err) => {
 
             if (err) throw err;
-
         })
     },
 
