@@ -24,7 +24,7 @@ module.exports = class DialogChain {
         dialogToChange.setAnswer(answer);
     }
 
-    initDialog(owner, callback) {
+    initDialog(owner) {
 
         owner.createDM().then( (channel) => {
 
@@ -54,11 +54,14 @@ module.exports = class DialogChain {
 
             })
 
-            collector.on('end', (collected) => {
+            collector.on('end', () => {
 
                 channel.send(this.endMessage)
 
-                callback(this.dialogs);
+                return new Promise( (resolve, reject) => {
+
+                    resolve(this.dialogs);
+                })
             })
 
             this.fase = 0;

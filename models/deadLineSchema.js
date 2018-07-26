@@ -75,12 +75,4 @@ module.exports = {
             })
         })
     },
-
-    verifyOnSchedule(deadline, date) {
-
-        let initDate = deadline.initDate;
-        let finishDate = deadline.finishDate;
-
-        return ((initDate <= date) && (date <= finishDate));
-    }
 };

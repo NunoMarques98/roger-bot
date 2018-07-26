@@ -1,0 +1,10 @@
+{
+    "serverQuestions" : [
+                        "Bot channel ID?",
+                        "Music channel ID?",
+                        "Join/Leave Channel ID?",
+                        "Role name for music interactions?",
+                        "Role name for util functions?",
+                        "Role name for advanced configs?"
+                    ]
+}

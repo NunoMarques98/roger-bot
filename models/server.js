@@ -5,6 +5,7 @@ const DialogChain = require('../modules/dialogChain');
 const Dailog = require('../modules/dialog');
 
 const flagTable = require('../flags.json').serverFlagTable;
+const questions = require('../dialogs.json').serverQuestions;
 
 const ServerSchema = new Schema({
 
@@ -28,9 +29,7 @@ module.exports = {
 
     server: DiscordServer,
 
-    joinServer(guild) {
-
-        let questions = ["Bot channel ID?", "Music channel ID?", "Join/Leave Channel ID?", "Role name for music interactions?", "Role name for util functions?", "Role name for advanced configs?"];
+    async joinServer(guild) {
 
         let dialogChain = new DialogChain(null, [], "Let's setup the ship!", "That's all Cap'n. You can always change me channels later!");
 
@@ -42,29 +41,28 @@ module.exports = {
         })
 
         let channels = guild.channels.filter(channel => channel.type === 'text');
+
+        let dialogAnswers = await dialogChain.initDialog(guild.owner);
         
-        dialogChain.initDialog(guild.owner, (cb) => {
+        let guildDefaultChannelID = channels.array()[0].id;
 
-            let guildDefaultChannelID = channels.array()[0].id;
+        let serverToJoin = new DiscordServer({
 
-            let serverToJoin = new DiscordServer({
+            name: guild.name,
+            id: guild.id,
+            ownerID: guild.ownerID,
+            region: guild.region,
+            defaultChannelID: guildDefaultChannelID,
+            botChannelID: dialogAnswers[0].answer || guildDefaultChannelID,
+            musicChannelID: dialogAnswers[1].answer || guildDefaultChannelID,
+            joinLeaveChannelID: dialogAnswers[2].answer || guildDefaultChannelID,
+            musicRoleName: dialogAnswers[3].answer,
+            botRoleName: dialogAnswers[4].answer,
+            configRoleName: dialogAnswers[5].answer
 
-                name: guild.name,
-                id: guild.id,
-                ownerID: guild.ownerID,
-                region: guild.region,
-                defaultChannelID: guildDefaultChannelID,
-                botChannelID: cb[0].answer || guildDefaultChannelID,
-                musicChannelID: cb[1].answer || guildDefaultChannelID,
-                joinLeaveChannelID: cb[2].answer || guildDefaultChannelID,
-                musicRoleName: cb[3].answer,
-                botRoleName: cb[4].answer,
-                configRoleName: cb[5].answer
-    
-            })
+        })
 
-            serverToJoin.save( (err) => { if (err) throw err });
-        });
+        serverToJoin.save( (err) => { if (err) throw err });
     },
 
     routeServerCommands(flags, values, serverID) {
