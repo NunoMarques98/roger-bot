@@ -1,13 +1,13 @@
 {   
     "serverFlagTable": {
 
-        "-b": {"botChannelID": null},
-        "-jl": {"joinLeaveChannelID": null},
-        "-m": {"musicChannelID": null},
-        "-d": {"defaultChannelID": null},
-        "-mr": {"musicRoleName": null},
-        "-br": {"botRoleName": null},
-        "-cr": {"configRoleName": null}
+        "-ub": {"botChannelID": null},
+        "-ujl": {"joinLeaveChannelID": null},
+        "-um": {"musicChannelID": null},
+        "-ud": {"defaultChannelID": null},
+        "-umr": {"musicRoleName": null},
+        "-ubr": {"botRoleName": null},
+        "-ucr": {"configRoleName": null}
     },
 
     "deadlineFlagTable": {

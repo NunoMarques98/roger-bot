@@ -1,5 +1,5 @@
 const prefix = require('../settings.json').prefix;
-const Server = require('../models/server');
+const Server = require('./server');
 const Submission = require('./submissions');
 const DeadLine = require('./deadLine');
 
@@ -28,15 +28,11 @@ class Message {
 
             switch (command) {
 
-                case "$updateID":
+                case "$server":
 
                     let value = commandParts[2];
 
-                    result = Server.routeServerCommands(flag, value, message.guildID);
-
-                    if (result) message.channel.send("ID updated!");
-
-                    else message.channel.send("Invalid flag!");
+                    result = Server.routeServerCommands(flag, value, message.guildID, message);
 
                     break;
 

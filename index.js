@@ -5,8 +5,8 @@ const client = new Discord.Client();
 const download = require('download-file');
 const mongo = require('mongoose');
 
-const user = require('./models/user');
-const server = require('./models/server');
+const user = require('./models/userSchema');
+const Server = require('./modules/server');
 const Message = require('./modules/message');
 /*mongo.connect(process.env.DB).catch( (err) => {
 
@@ -42,7 +42,7 @@ client.on('guildMemberAdd', member => {
 
 client.on('guildCreate', guild => {
 
-    server.joinServer(guild);
+    Server.joinServer(guild);
 })
 
 client.on('message', message => {
