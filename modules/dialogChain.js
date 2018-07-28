@@ -24,7 +24,7 @@ module.exports = class DialogChain {
         dialogToChange.setAnswer(answer);
     }
 
-    initDialog(owner) {
+    initDialog(owner, callback) {
 
         owner.createDM().then( (channel) => {
 
@@ -40,7 +40,7 @@ module.exports = class DialogChain {
 
                 if(content.match(/done/i) !== null) collector.stop();
     
-                if(content.match(/^([0-9]{18}|\w{1,20})$/gm) !== null) {
+                if(content.match(/([0-9]{18}|\w{1,20}|\s)/gm) !== null) {
 
                     this.dialogs[this.fase].setAnswer(content);
 
@@ -58,10 +58,7 @@ module.exports = class DialogChain {
 
                 channel.send(this.endMessage)
 
-                return new Promise( (resolve, reject) => {
-
-                    resolve(this.dialogs);
-                })
+                callback(this.dialogs);
             })
 
             this.fase = 0;

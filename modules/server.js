@@ -34,6 +34,18 @@ class Server {
 
             else if(matchedFlag == '-r') {
 
+                query = {id: serverID};
+
+                let existance = await serverSchema.checkExistance(query);
+
+                if(!existance){
+
+                    this.joinServer(message.guild);
+
+                    returnMessage = "Ship built!";
+                } 
+
+                else returnMessage = "You already have a ship!";
             }
 
             else {
@@ -56,7 +68,7 @@ class Server {
         message.channel.send(returnMessage);
     }
 
-    static async joinServer(guild) {
+    static joinServer(guild) {
 
         let dialogChain = new DialogChain(null, [], "Let's setup the ship!", "That's all Cap'n. You can always change me channels later!");
 
@@ -69,19 +81,13 @@ class Server {
 
         let channels = guild.channels.filter(channel => channel.type === 'text');
 
-        let dialogAnswers = await dialogChain.initDialog(guild.owner);
-        
         let guildDefaultChannelID = channels.array()[0].id;
 
-        serverSchema.saveServer(guild, dialogAnswers, guildDefaultChannelID)
+        dialogChain.initDialog(guild.owner, dialogAnswers => {
+
+            serverSchema.saveServer(guild, dialogAnswers, guildDefaultChannelID)
+        });
     }
-
-    static async getExistance(query) {
-
-       
-        return existance;
-    }
-
 }
 
 module.exports = Server;
