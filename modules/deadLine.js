@@ -86,7 +86,7 @@ class DeadLine {
 
         let name = values[2];
         let date = new Date();
-
+        
         let query = {serverID: message.guildID, name: name};
 
         let res = await DeadLineModel.getDeadLine(query);

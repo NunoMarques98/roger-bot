@@ -83,7 +83,7 @@ class Server {
 
         let guildDefaultChannelID = channels.array()[0].id;
 
-        dialogChain.initDialog(guild.owner, dialogAnswers => {
+        dialogChain.initDialog(guild.owner, (dialogAnswers) => {
 
             serverSchema.saveServer(guild, dialogAnswers, guildDefaultChannelID)
         });

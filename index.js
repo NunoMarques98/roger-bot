@@ -1,8 +1,7 @@
-const {token, prefix, dbLink} = require("./settings.json");
+const {token, prefix, dbLink, containerLink} = require("./settings.json");
 
 const Discord = require('discord.js');
 const client = new Discord.Client();
-const download = require('download-file');
 const mongo = require('mongoose');
 
 const user = require('./models/userSchema');
@@ -13,20 +12,20 @@ const Message = require('./modules/message');
     console.log(err);
 })*/
 
-mongo.connect(dbLink).catch( (err) => {
+mongo.connect(containerLink, {
+    autoReconnect: true,
+    reconnectTries: 60,
+    reconnectInterval: 1000
 
-    console.log(err);
-})
+}).then(() => {
 
-mongo.connection.once('open', () => {
-    
     console.log("Connection establised...");
 
-}).on('error', (err) => {
+}).catch( (err) => {
 
     console.log(err);
 })
- 
+
 //client.login(process.env.BOT_TOKEN);
 client.login(token);
 

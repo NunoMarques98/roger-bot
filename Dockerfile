@@ -1,7 +1,4 @@
-FROM node:latest
-
-LABEL maintainer="Nuno Carriço"
-LABEL description="This example installs node"
+FROM node:10
 
 WORKDIR /usr/src/bot
 
@@ -12,6 +9,3 @@ RUN npm install
 COPY . .
 
 CMD [ "npm", "start" ]
-
-
-
