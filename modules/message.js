@@ -2,6 +2,9 @@ const prefix = require('../settings.json').prefix;
 const Server = require('./server');
 const Submission = require('./submissions');
 const DeadLine = require('./deadLine');
+const PlayFile = require('./playFile');
+
+let playFile = new PlayFile();
 
 class Message {
 
@@ -16,45 +19,49 @@ class Message {
         this.attachment = attachment;
     }
 
-    static routeMessage(message) {
+    static routeMessage(message, fullMessage) {
 
-        if(message.content.startsWith(prefix)) {
+        
+        let commandParts = message.content.split(" ");
+        let command = commandParts[0];
+        let flag = commandParts[1];
+        let result;
 
-            let commandParts = message.content.split(" ");
+        switch (command) {
 
-            let command = commandParts[0];
-            let flag = commandParts[1];
-            let result;
+            case "$server":
 
-            switch (command) {
+                let value = commandParts[2];
 
-                case "$server":
+                result = Server.routeServerCommands(flag, value, message.guildID, message);
 
-                    let value = commandParts[2];
+                break;
 
-                    result = Server.routeServerCommands(flag, value, message.guildID, message);
+            case "$deadline":
 
-                    break;
+                result = DeadLine.routeDeadLineCommands(flag, message);
 
-                case "$deadline":
+                if(result.msg) message.channel.send(result.msg);
 
-                    result = DeadLine.routeDeadLineCommands(flag, message);
+                break;
 
-                    if(result.msg) message.channel.send(result.msg);
+            case "$submit":
 
-                    break;
+                result = Submission.routeSubmission(message);
 
-                case "$submit":
+                break;
 
-                    result = Submission.routeSubmission(message);
+            case "$play":
 
-                    break;
-            
-                default:
+                playFile.handler(fullMessage);
 
-                    message.channel.send("Command not found!");
-                    break;
-            }
+                break;
+        
+            default:
+
+                message.channel.send("Command not found!");
+                break;
+        
 
 
         }

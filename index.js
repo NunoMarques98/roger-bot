@@ -12,7 +12,7 @@ const Message = require('./modules/message');
     console.log(err);
 })*/
 
-mongo.connect(containerLink, {
+/* mongo.connect(containerLink, {
     autoReconnect: true,
     reconnectTries: 60,
     reconnectInterval: 1000
@@ -24,7 +24,7 @@ mongo.connect(containerLink, {
 }).catch( (err) => {
 
     console.log(err);
-})
+}) */
 
 //client.login(process.env.BOT_TOKEN);
 client.login(token);
@@ -54,6 +54,6 @@ client.on('message', message => {
 
         let messageReceived = new Message(message.guild.id, message.member.id, message.channel, message.content, message.author.username, attachment, message.guild);
 
-        Message.routeMessage(messageReceived);
+        Message.routeMessage(message, message);
     }
 })
