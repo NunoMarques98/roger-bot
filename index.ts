@@ -22,7 +22,7 @@ client.on('guildMemberAdd', member => {
 
     let channel : Discord.TextChannel = <Discord.TextChannel> client.channels.get("460934242713600013");
 
-    createUser(member.displayName, member.id).then(( res => {
+    createUser(member.displayName, member.id).then( res => {
 
         channel.send(res);
     })
