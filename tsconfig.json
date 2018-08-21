@@ -2,10 +2,20 @@
     "compilerOptions": {
         "outDir": "./build",
         "allowJs": true,
-        "target": "es6"
+        "target": "es2017",
+        "declaration": false,
+		"noImplicitAny": true,
+        "sourceMap": true,
+        "resolveJsonModule": true,
+        "module": "commonjs"
     },
 
     "include": [
-        "./src/**/*"
+        "./src/**/*",
+        "./index.ts"
+    ],
+
+    "exclude": [
+        "node_modules"
     ]
 }
