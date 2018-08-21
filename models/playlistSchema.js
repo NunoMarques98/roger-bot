@@ -26,7 +26,7 @@ const Playlist = mongoose.model("playlist", PlaylistSchema);
 
 module.exports = { 
     
-    playlist: Playlist,
+    Playlist: Playlist,
 
     createPlaylist: (userID, plID, name) => {
 
