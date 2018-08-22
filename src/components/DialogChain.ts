@@ -1,6 +1,5 @@
 import Dialog from "./Dialog";
 import * as Discord from "discord.js";
-import { changeID } from "../database_models/ServerSchema";
 
 export default class DialogChain {
 

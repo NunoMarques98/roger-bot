@@ -3,6 +3,8 @@ import {token, prefix, dbLink} from "./settings.json";
 import * as Discord from "discord.js";
 import * as Mongo  from "mongoose";
 
+import { checkCommands } from "./src/components/CommandHandler";
+
 import { createUser } from "./src/database_models/UserSchema";
 
 const client : Discord.Client = new Discord.Client();
@@ -37,7 +39,13 @@ client.on('message', message => {
 
     if(message.content.startsWith(prefix)) {
 
-        let attachment : Discord.MessageAttachment = message.attachments.first();
+        try {
+            
+            checkCommands(message);
 
+        } catch (error) {
+
+            message.channel.send(error);
+        }
     }
 })

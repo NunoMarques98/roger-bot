@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const settings_json_1 = require("./settings.json");
 const Discord = require("discord.js");
 const Mongo = require("mongoose");
+const CommandHandler_1 = require("./src/components/CommandHandler");
 const UserSchema_1 = require("./src/database_models/UserSchema");
 const client = new Discord.Client();
 client.login(settings_json_1.token);
@@ -22,7 +23,12 @@ client.on('guildCreate', guild => {
 });
 client.on('message', message => {
     if (message.content.startsWith(settings_json_1.prefix)) {
-        let attachment = message.attachments.first();
+        try {
+            CommandHandler_1.checkCommands(message);
+        }
+        catch (error) {
+            message.channel.send(error);
+        }
     }
 });
 //# sourceMappingURL=index.js.map
