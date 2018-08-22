@@ -1,18 +1,16 @@
 import Dialog from "./Dialog";
-import * as Discord from "discord.js";
+import { TextChannel, GuildMember, MessageCollector } from "discord.js";
 
 export default class DialogChain {
 
     dialogs : Array<Dialog> = [];
     fase : number = 0;
-    channel : Discord.TextChannel;
     beginMessage : string;
     endMessage : string;
 
-    constructor(channel : Discord.TextChannel, dialogs : Array<Dialog>, beginMessage : string, endMessage : string) {
+    constructor(dialogs : Array<Dialog>, beginMessage : string, endMessage : string) {
 
         this.dialogs = dialogs;
-        this.channel = channel;
         this.beginMessage = beginMessage;
         this.endMessage = endMessage;
 
@@ -23,22 +21,22 @@ export default class DialogChain {
         this.dialogs.push(dialog);
     }
 
-    modifyDialog(fase : number, answer : string) : void {
+    modifyDialog(fase : number, answer : string, channel : TextChannel) : void {
 
         let dialogToChange = this.dialogs[fase];
 
-        this.channel.send(dialogToChange.question);
+        channel.send(dialogToChange.question);
 
         dialogToChange.setAnswer(answer);
     }
 
-    initDialog(owner : Discord.GuildMember) : Promise<any> {
+    initDialog(owner : GuildMember) : Promise<any> {
 
         return new Promise( (resolve, reject) => {
 
             owner.createDM().then( channel => {
 
-                let collector : Discord.MessageCollector = channel.createMessageCollector(m => !m.author.bot);
+                let collector : MessageCollector = channel.createMessageCollector(m => !m.author.bot);
 
                 channel.send(this.beginMessage);
 

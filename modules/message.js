@@ -61,9 +61,6 @@ class Message {
 
                 message.channel.send("Command not found!");
                 break;
-        
-
-
         }
     }
 

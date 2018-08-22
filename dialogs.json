@@ -1,5 +1,5 @@
 {
-    "serverQuestions" : [
+    "serverDialog" : [
                         "Bot channel ID?",
                         "Music channel ID?",
                         "Join/Leave Channel ID?",
