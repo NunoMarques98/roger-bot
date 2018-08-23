@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const commands_json_1 = require("../../commands.json");
 const Server_1 = require("../components/Server");
+const MusicPlayer_1 = require("../components/MusicPlayer");
 const Submission_1 = require("../components/Submission");
 function checkCommands(message) {
     let parts = getCommandParts(message);
@@ -24,14 +25,10 @@ function handleCommands(command, flags, message) {
         case "$deadline":
             break;
         case "$submit":
-            try {
-                Submission_1.default.createSubmission(message);
-            }
-            catch (error) {
-                //message.channel.send(error)
-            }
+            Submission_1.default.createSubmission(message);
             break;
         case "$play":
+            MusicPlayer_1.handler(message);
             break;
         default:
             break;

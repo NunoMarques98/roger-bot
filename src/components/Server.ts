@@ -22,7 +22,7 @@ function checkServerCommands(flag : string, value : string, message : Message) {
 
         } catch (error) {
             
-            message.channel.send(error);
+            //message.channel.send(error);
         }
     }
 

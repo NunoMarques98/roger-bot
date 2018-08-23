@@ -13,7 +13,7 @@ function checkServerCommands(flag, value, message) {
             routeCommands(flag, value, message);
         }
         catch (error) {
-            message.channel.send(error);
+            //message.channel.send(error);
         }
     }
     else if (!match)

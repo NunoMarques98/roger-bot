@@ -46,7 +46,7 @@ client.on('message', message => {
 
         } catch (error) {
 
-            message.channel.send(error);
+            //message.channel.send(error);
         }
     }
 })

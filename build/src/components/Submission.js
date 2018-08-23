@@ -31,7 +31,6 @@ class Submission {
     }
     reportTo(member) {
         member.createDM().then(channel => {
-            channel.send("Hello loser!");
             channel.send(`A file has been submitted by ${this.fromAlias} at ${this.submissionDate}\n`);
             channel.send({ files: [this.attachmentURL] });
         }).catch(err => {

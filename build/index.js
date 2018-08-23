@@ -29,7 +29,7 @@ client.on('message', message => {
             CommandHandler_1.checkCommands(message);
         }
         catch (error) {
-            message.channel.send(error);
+            //message.channel.send(error);
         }
     }
 });

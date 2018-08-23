@@ -13,7 +13,6 @@ interface DeadLine {
     serverID: string
 }
 
-
 export default class Submission {
 
     fromAlias : string;

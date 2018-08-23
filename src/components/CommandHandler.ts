@@ -3,6 +3,7 @@ import { commands } from "../../commands.json";
 import * as Discord from "discord.js";
 
 import { checkServerCommands } from "../components/Server";
+import { handler } from "../components/MusicPlayer";
 import Submission from "../components/Submission";
 
 function checkCommands(message : Discord.Message) {
@@ -30,7 +31,6 @@ function handleCommands(command: string, flags: Array<string>, message: Discord.
         case "$server":
             
             checkServerCommands(flags[0], flags[1], message);
-
             break;
 
         case "$deadline":
@@ -39,19 +39,12 @@ function handleCommands(command: string, flags: Array<string>, message: Discord.
 
         case "$submit":
 
-            try {
-                
-                Submission.createSubmission(message);
-
-            } catch (error) {
-                
-                message.channel.send(error)
-            }
-
+            Submission.createSubmission(message);
             break;
 
         case "$play":
-
+        
+            handler(message);
             break;
 
         default:
