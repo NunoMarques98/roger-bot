@@ -57,11 +57,13 @@ function getOpenDeadLines(query : Object) : Promise<any> {
     })
 }
 
-function getDeadLine(query : Object) : Promise<any> {
+function getDeadLine(query : Object, date : any) : Promise<any> {
     
     return new Promise( (resolve, reject) => {
 
-        DeadLine.findOne(query, (err, res) => {
+        let composedQuery : Mongo.Query<any> = DeadLine.findOne(query).where('initDate').lte(date).where('finishDate').gte(date);
+
+        composedQuery.exec( (err, res) => {
 
             if (err) reject(err);
 

@@ -1,5 +1,4 @@
-const prefix = require('../settings.json').prefix;
-const Server = require('./server');
+
 const Submission = require('./submissions');
 const DeadLine = require('./deadLine');
 const PlayFile = require('./playFile');
@@ -46,7 +45,7 @@ class Message {
                 break;
 
             case "$submit":
-
+                
                 result = Submission.routeSubmission(message);
 
                 break;

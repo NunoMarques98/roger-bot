@@ -4,6 +4,7 @@ const settings_json_1 = require("./settings.json");
 const Discord = require("discord.js");
 const Mongo = require("mongoose");
 const CommandHandler_1 = require("./src/components/CommandHandler");
+const Server_1 = require("./src/components/Server");
 const UserSchema_1 = require("./src/database_models/UserSchema");
 const client = new Discord.Client();
 client.login(settings_json_1.token);
@@ -20,6 +21,7 @@ client.on('guildMemberAdd', member => {
     });
 });
 client.on('guildCreate', guild => {
+    Server_1.joinServer(guild);
 });
 client.on('message', message => {
     if (message.content.startsWith(settings_json_1.prefix)) {

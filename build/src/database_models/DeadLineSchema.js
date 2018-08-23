@@ -45,9 +45,10 @@ function getOpenDeadLines(query) {
     });
 }
 exports.getOpenDeadLines = getOpenDeadLines;
-function getDeadLine(query) {
+function getDeadLine(query, date) {
     return new Promise((resolve, reject) => {
-        DeadLine.findOne(query, (err, res) => {
+        let composedQuery = DeadLine.findOne(query).where('initDate').lte(date).where('finishDate').gte(date);
+        composedQuery.exec((err, res) => {
             if (err)
                 reject(err);
             resolve(res);

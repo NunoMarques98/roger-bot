@@ -1,6 +1,9 @@
 import { commands } from "../../commands.json";
+
 import * as Discord from "discord.js";
+
 import { checkServerCommands } from "../components/Server";
+import Submission from "../components/Submission";
 
 function checkCommands(message : Discord.Message) {
     
@@ -35,6 +38,15 @@ function handleCommands(command: string, flags: Array<string>, message: Discord.
             break;
 
         case "$submit":
+
+            try {
+                
+                Submission.createSubmission(message);
+
+            } catch (error) {
+                
+                message.channel.send(error)
+            }
 
             break;
 

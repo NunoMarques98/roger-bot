@@ -136,4 +136,4 @@ function joinServer(guild : Guild) {
     
 }
 
-export { checkServerCommands }
+export { checkServerCommands, joinServer }

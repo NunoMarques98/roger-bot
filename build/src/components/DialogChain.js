@@ -1,20 +1,19 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 class DialogChain {
-    constructor(channel, dialogs, beginMessage, endMessage) {
+    constructor(dialogs, beginMessage, endMessage) {
         this.dialogs = [];
         this.fase = 0;
         this.dialogs = dialogs;
-        this.channel = channel;
         this.beginMessage = beginMessage;
         this.endMessage = endMessage;
     }
     addDialog(dialog) {
         this.dialogs.push(dialog);
     }
-    modifyDialog(fase, answer) {
+    modifyDialog(fase, answer, channel) {
         let dialogToChange = this.dialogs[fase];
-        this.channel.send(dialogToChange.question);
+        channel.send(dialogToChange.question);
         dialogToChange.setAnswer(answer);
     }
     initDialog(owner) {

@@ -1,6 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const commands_json_1 = require("../../commands.json");
+const Server_1 = require("../components/Server");
+const Submission_1 = require("../components/Submission");
 function checkCommands(message) {
     let parts = getCommandParts(message);
     let command = parts[0];
@@ -17,10 +19,17 @@ function getCommandParts(message) {
 function handleCommands(command, flags, message) {
     switch (command) {
         case "$server":
+            Server_1.checkServerCommands(flags[0], flags[1], message);
             break;
         case "$deadline":
             break;
         case "$submit":
+            try {
+                Submission_1.default.createSubmission(message);
+            }
+            catch (error) {
+                //message.channel.send(error)
+            }
             break;
         case "$play":
             break;

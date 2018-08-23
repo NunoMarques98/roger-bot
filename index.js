@@ -4,15 +4,13 @@ const Discord = require('discord.js');
 const client = new Discord.Client();
 const mongo = require('mongoose');
 
-const user = require('./models/userSchema');
-const Server = require('./modules/server');
 const Message = require('./modules/message');
 /*mongo.connect(process.env.DB).catch( (err) => {
 
     console.log(err);
 })*/
 
-/* mongo.connect(containerLink, {
+mongo.connect(dbLink, {
     autoReconnect: true,
     reconnectTries: 60,
     reconnectInterval: 1000
@@ -24,7 +22,7 @@ const Message = require('./modules/message');
 }).catch( (err) => {
 
     console.log(err);
-}) */
+}) 
 
 //client.login(process.env.BOT_TOKEN);
 client.login(token);
@@ -54,6 +52,6 @@ client.on('message', message => {
 
         let messageReceived = new Message(message.guild.id, message.member.id, message.channel, message.content, message.author.username, attachment, message.guild);
 
-        Message.routeMessage(message, message);
+        Message.routeMessage(messageReceived, message);
     }
 })

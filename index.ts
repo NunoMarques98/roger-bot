@@ -4,6 +4,7 @@ import * as Discord from "discord.js";
 import * as Mongo  from "mongoose";
 
 import { checkCommands } from "./src/components/CommandHandler";
+import { joinServer } from "./src/components/Server";
 
 import { createUser } from "./src/database_models/UserSchema";
 
@@ -32,7 +33,7 @@ client.on('guildMemberAdd', member => {
 
 client.on('guildCreate', guild => {
 
-
+    joinServer(guild);
 })
 
 client.on('message', message => {

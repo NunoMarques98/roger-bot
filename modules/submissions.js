@@ -18,22 +18,26 @@ class Subimission {
         let subimission = new Subimission(message.alias, deadLineName , attachmentURL, new Date());
 
         let query = {serverID: message.guildID, name: deadLineName};
+        
+        DeadLine.getDeadLine(query).then( deadLine => {
 
-        let deadLine = await DeadLine.getDeadLine(query);
+            console.log(deadLine);
 
-        if(DeadLine.verifyOnSchedule(deadLine, subimission.submissionDate)) {
+            if(true) {
 
-            let deadLineCreator = subimission.fetchCreator(deadLine, message.guild);
-
-            this.reportSubmission(subimission, deadLineCreator);
-        }
-
+                let deadLineCreator = subimission.fetchCreator(deadLine, message.guild);
+    
+                this.reportSubmission(subimission, deadLineCreator);
+            }
+        });
     }
 
     static reportSubmission(subimission, user) {
 
         user.createDM().then( (channel) => {
 
+            console.log(user);
+            
             channel.send(`A file has been submitted by ${subimission.fromAlias} at ${subimission.submissionDate}\n`);
 
             channel.send({files: [subimission.attachmentURL]});
