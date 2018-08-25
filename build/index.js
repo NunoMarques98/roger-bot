@@ -7,9 +7,9 @@ const CommandHandler_1 = require("./src/components/CommandHandler");
 const Server_1 = require("./src/components/Server");
 const UserSchema_1 = require("./src/database_models/UserSchema");
 const client = new Discord.Client();
-client.login(settings_json_1.token).then(() => {
+client.login(process.env.BOT_TOKEN).then(() => {
 });
-Mongo.connect(settings_json_1.dbLink).then(() => {
+Mongo.connect(process.env.DB).then(() => {
     console.log("Connected...");
 })
     .catch((err) => {
