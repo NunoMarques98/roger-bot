@@ -4,6 +4,7 @@ const commands_json_1 = require("../../commands.json");
 const Server_1 = require("../components/Server");
 const MusicPlayer_1 = require("../components/MusicPlayer");
 const Submission_1 = require("../components/Submission");
+const DeadLine_1 = require("../components/DeadLine");
 function checkCommands(message) {
     let parts = getCommandParts(message);
     let command = parts[0];
@@ -23,6 +24,7 @@ function handleCommands(command, flags, message) {
             Server_1.checkServerCommands(flags[0], flags[1], message);
             break;
         case "$deadline":
+            DeadLine_1.default.routeDeadLineCommands(flags[0], message);
             break;
         case "$submit":
             Submission_1.default.createSubmission(message);

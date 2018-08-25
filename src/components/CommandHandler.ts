@@ -5,6 +5,7 @@ import * as Discord from "discord.js";
 import { checkServerCommands } from "../components/Server";
 import { handler } from "../components/MusicPlayer";
 import Submission from "../components/Submission";
+import DeadLine from "../components/DeadLine";
 
 function checkCommands(message : Discord.Message) {
     
@@ -35,6 +36,7 @@ function handleCommands(command: string, flags: Array<string>, message: Discord.
 
         case "$deadline":
 
+            DeadLine.routeDeadLineCommands(flags[0], message);
             break;
 
         case "$submit":

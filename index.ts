@@ -1,4 +1,5 @@
 import {token, prefix, dbLink} from "./settings.json";
+import { fork } from "child_process";
 
 import * as Discord from "discord.js";
 import * as Mongo  from "mongoose";
@@ -10,7 +11,10 @@ import { createUser } from "./src/database_models/UserSchema";
 
 const client : Discord.Client = new Discord.Client();
 
-client.login(token);
+client.login(token).then( () => {
+
+    
+});
 
 Mongo.connect(dbLink).then(() => {
 
