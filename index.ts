@@ -11,12 +11,12 @@ import { createUser } from "./src/database_models/UserSchema";
 
 const client : Discord.Client = new Discord.Client();
 
-client.login(token).then( () => {
+client.login(process.env.BOT_TOKEN).then( () => {
 
     
 });
 
-Mongo.connect(dbLink).then(() => {
+Mongo.connect(process.env.DB).then(() => {
 
     console.log("Connected...");
 })

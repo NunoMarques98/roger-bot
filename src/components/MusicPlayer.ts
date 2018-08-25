@@ -14,6 +14,8 @@ function enqueue(message : Message) : void {
     url = url.replace("'", '"');
 
     if(youtubeRegex.test(url)) queue.push(url);
+
+    else message.channel.send("That's a valid youtube link, cooker!")
 }
 
 function selector(voiceChannel : VoiceChannel) : void {
@@ -55,6 +57,7 @@ function handler(message : Message) : void {
     } else {
 
         enqueue(message);
+        message.channel.send("The crew will sing your song next, lad!");
         
     }
 }
