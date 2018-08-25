@@ -1,1 +1,1 @@
-worker: node ./build/index.js
+worker: tsc && node ./build/index.js
