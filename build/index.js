@@ -1,6 +1,6 @@
 "use strict";
+//import {token, prefix, dbLink} from "./settings.json";
 Object.defineProperty(exports, "__esModule", { value: true });
-const settings_json_1 = require("./settings.json");
 const Discord = require("discord.js");
 const Mongo = require("mongoose");
 const CommandHandler_1 = require("./src/components/CommandHandler");
@@ -25,7 +25,7 @@ client.on('guildCreate', guild => {
     Server_1.joinServer(guild);
 });
 client.on('message', message => {
-    if (message.content.startsWith(settings_json_1.prefix)) {
+    if (message.content.startsWith("$")) {
         try {
             CommandHandler_1.checkCommands(message);
         }
