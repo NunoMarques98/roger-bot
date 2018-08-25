@@ -2,3 +2,5 @@ node_modules
 settings.json
 *.vs
 *.map
+.vscode
+coverage
