@@ -1,5 +1,4 @@
-import {token, prefix, dbLink} from "./settings.json";
-import { fork } from "child_process";
+//import {token, prefix, dbLink} from "./settings.json";
 
 import * as Discord from "discord.js";
 import * as Mongo  from "mongoose";
@@ -42,7 +41,7 @@ client.on('guildCreate', guild => {
 
 client.on('message', message => {
 
-    if(message.content.startsWith(prefix)) {
+    if(message.content.startsWith("$")) {
 
         try {
             
