@@ -1,7 +1,6 @@
 import * as Discord from "discord.js";
-import { checkCommands, getCommandParts, handleCommands } from "../../components/CommandHandler";
+import { checkCommands, getCommandParts } from "../../components/CommandHandler";
 import { token } from "../../../settings.json";
-import { createHash } from "crypto";
 
 let message : Discord.Message;
 let messageWithWrongCommand : Discord.Message;
@@ -43,6 +42,11 @@ describe("Command handling tests", () => {
 
         expect(parts).toHaveLength(1);
         expect(Array.isArray(parts)).toBe(true);
+    })
+
+    test("Getting command parts with null message", () => {
+
+        expect(() => { getCommandParts(null) }).toThrowError();
     })
     
     test("Command calling test with not known command", () => {
