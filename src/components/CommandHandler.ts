@@ -12,8 +12,8 @@ function checkCommands(message : Discord.Message) {
     let parts : Array<string> = getCommandParts(message);
 
     let command = parts[0];
-    
-    if(commands.includes(command)) handleCommands(command, parts.splice(0, 1), message);
+
+    if(commands.includes(command)) handleCommands(command, parts.slice(1), message);
 
     else throw "Command not found!";
 }
@@ -54,4 +54,4 @@ function handleCommands(command: string, flags: Array<string>, message: Discord.
     }
 }
 
-export { checkCommands }
+export { checkCommands, getCommandParts, handleCommands }

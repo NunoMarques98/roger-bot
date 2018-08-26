@@ -39,18 +39,21 @@ export default class DeadLine {
             switch (matchedCommand) {
 
                 case "-o":
-
+                    
                     this.printOpenDeadLines(message);
+                    break;
 
                 case "-c":
             
                     let dead = new DeadLine(values[2], values[3], message.member.id, message.author.username, values[4], values[5], message.guild.id);
 
                     dead.saveDeadLine();
+                    break;
 
                 case "-tl":
 
                     this.timeLeft(message, values);
+                    break;
 
                 default:
 
