@@ -45,9 +45,14 @@ describe("Command handling tests", () => {
         expect(Array.isArray(parts)).toBe(true);
     })
     
-    test("Command calling test", () => {
+    test("Command calling test with not known command", () => {
     
         expect( () => { checkCommands(messageWithWrongCommand) }).toThrowError("Command not found!")
+    })
+
+    test("Command calling test with known command", () => {
+    
+        expect( () => { checkCommands(message) }).not.toThrowError();
     })
 })
 
