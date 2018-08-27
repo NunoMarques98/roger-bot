@@ -19,7 +19,8 @@ beforeAll( async () => {
     emptyMessage = await <any> channel.send("Empty");
 
     emptyMessage.content = "";
-})
+    
+}, 10000)
 
 afterAll( () => {
 
@@ -50,7 +51,7 @@ describe("Command handling tests", () => {
     })
     
     test("Command calling test with not known command", () => {
-    
+
         expect( () => { checkCommands(messageWithWrongCommand) }).toThrowError("Command not found!")
     })
 

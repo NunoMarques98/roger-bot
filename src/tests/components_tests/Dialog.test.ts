@@ -2,7 +2,7 @@ import Dialog from "../../components/Dialog";
 
 let dialog : Dialog;
 
-beforeAll( () => {
+beforeEach( () => {
 
     dialog = new Dialog("Test dialog");
 })
@@ -23,7 +23,7 @@ describe("Dialog tests", () => {
     test("Dialog with answer", () => {
 
         dialog.setAnswer("test");
-        
+
         expect(dialog.answer).not.toBeNull();
     })
 })

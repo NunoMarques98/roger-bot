@@ -10,7 +10,7 @@ export default class DialogChain {
 
     constructor(dialogs : Array<Dialog>, beginMessage : string, endMessage : string) {
 
-        this.dialogs = dialogs;
+        this.dialogs = dialogs || [];
         this.beginMessage = beginMessage;
         this.endMessage = endMessage;
 
